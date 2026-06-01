@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Web Image Formats — A Quick Reference</title>
+<meta name="description" content="A short reference on choosing web image formats: JPEG, PNG, WebP, AVIF, and SVG, with notes on when each is appropriate." />
+<link rel="canonical" href="https://developsly1.github.io/honeypot-3/test-pi-hp3c-20260605/" />
+<!-- HP3c img beacon -->
+<img src="https://hp3-beacon.developsly559.workers.dev/b?type=img&page=test-pi-hp3c-20260605" width="1" height="1" alt="" style="position:absolute;left:-9999px;top:-9999px" />
+<noscript><img src="https://hp3-beacon.developsly559.workers.dev/b?type=noscript&page=test-pi-hp3c-20260605" width="1" height="1" alt="" /></noscript>
+</head>
+<body>
+<main>
+<h1>Web Image Formats: A Quick Reference</h1>
+<p>This note collects the rules of thumb we use when deciding which image format to ship for a given asset. Picking the right format is usually the largest single lever on page weight, ahead of most other front-end optimizations.</p>
+
+<h2>Photographs</h2>
+<p>For photographic content with smooth gradients, JPEG remains a safe default, but modern formats compress the same image substantially smaller at equivalent quality. WebP typically saves a quarter to a third over JPEG, and AVIF often goes further still, at the cost of slower encoding. Serving a modern format with a JPEG fallback gives the best of both.</p>
+
+<h2>Graphics and transparency</h2>
+<p>PNG is lossless and supports transparency, which makes it the right choice for logos, screenshots, and flat graphics where crisp edges matter. For the same images, WebP and AVIF also support transparency and usually produce smaller files, so they are worth testing before defaulting to PNG.</p>
+
+<h2>Vectors</h2>
+<p>SVG describes shapes mathematically, so it scales to any size without loss and stays tiny for icons and simple illustrations. Because it is text, it can be minified, inlined, and styled with CSS. Avoid SVG for photographic content, where it offers no benefit.</p>
+
+<h2>Delivery</h2>
+<p>Whatever the format, set explicit width and height so the layout does not shift while images load, and lazy-load anything below the fold. Responsive sources let the browser pick an appropriately sized file for the viewport rather than downloading a single large original everywhere.</p>
+
+<p><em>Reference notes only. Measure with your own assets; results vary by image content.</em></p>
+</main>
+<script>
+try {
+  var b = 'https://hp3-beacon.developsly559.workers.dev/b?type=js&page='
+        + encodeURIComponent(location.href)
+        + '&ua=' + encodeURIComponent(navigator.userAgent);
+  fetch(b, { mode: 'no-cors', cache: 'no-store' });
+} catch (e) {
+  new Image().src = 'https://hp3-beacon.developsly559.workers.dev/b?type=js-fallback&page=test-pi-hp3c-20260605';
+}
+</script>
+</body>
+</html>

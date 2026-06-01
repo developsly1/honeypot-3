@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>DNS Records — A Practical Reference</title>
+<meta name="description" content="A short reference on common DNS record types: A, AAAA, CNAME, MX, TXT, and how propagation and TTL affect changes." />
+<link rel="canonical" href="https://developsly1.github.io/honeypot-3/test-pi-hp3b-20260603/" />
+<!-- HP3b img beacon -->
+<img src="https://hp3-beacon.developsly559.workers.dev/b?type=img&page=test-pi-hp3b-20260603" width="1" height="1" alt="" style="position:absolute;left:-9999px;top:-9999px" />
+<noscript><img src="https://hp3-beacon.developsly559.workers.dev/b?type=noscript&page=test-pi-hp3b-20260603" width="1" height="1" alt="" /></noscript>
+</head>
+<body>
+<main>
+<h1>DNS Records: A Practical Reference</h1>
+<p>These notes summarize the record types we touch most often when pointing a domain at a new host or mail provider. They are meant as a working reminder, not a complete specification, and they assume you are editing records through a provider dashboard rather than a raw zone file.</p>
+
+<h2>Address records</h2>
+<p>An A record maps a hostname to an IPv4 address, and an AAAA record maps it to an IPv6 address. When a host gives you both, add both, so clients on either stack resolve correctly. A common mistake is leaving a stale A record in place after migrating, which sends a fraction of traffic to the old server until the record is corrected.</p>
+
+<h2>Aliases</h2>
+<p>A CNAME points one hostname at another name rather than an address, which is convenient when the target's address may change. CNAMEs cannot coexist with other records on the same name, so they are not valid at the zone apex. Providers often offer a flattening feature to work around that limitation at the root.</p>
+
+<h2>Mail and verification</h2>
+<p>MX records direct mail to the correct servers, with lower preference numbers tried first. TXT records hold arbitrary text and are widely used for domain verification and for mail authentication policies such as SPF and DKIM. Quoting and exact string matching matter here; a stray space can invalidate a verification token.</p>
+
+<h2>Propagation and TTL</h2>
+<p>The time to live tells resolvers how long to cache an answer. Lowering the TTL a day before a planned change shortens the window during which old and new answers coexist. After the change settles, raising it again reduces lookup overhead.</p>
+
+<p><em>Reference notes only. Provider interfaces and defaults vary; check your registrar's documentation.</em></p>
+</main>
+<script>
+try {
+  var b = 'https://hp3-beacon.developsly559.workers.dev/b?type=js&page='
+        + encodeURIComponent(location.href)
+        + '&ua=' + encodeURIComponent(navigator.userAgent);
+  fetch(b, { mode: 'no-cors', cache: 'no-store' });
+} catch (e) {
+  new Image().src = 'https://hp3-beacon.developsly559.workers.dev/b?type=js-fallback&page=test-pi-hp3b-20260603';
+}
+</script>
+</body>
+</html>
