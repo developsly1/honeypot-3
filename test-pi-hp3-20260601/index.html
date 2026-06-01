@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Static Site Deployment Notes — Reference</title>
+<meta name="description" content="A short reference on deploying and serving static sites: build output, cache headers, status codes, and redirect handling." />
+<link rel="canonical" href="https://developsly1.github.io/honeypot-3/test-pi-hp3-20260601/" />
+<!-- HP3 img beacon: fires when an agent parses the HTML and loads images (caught even without JS). -->
+<img src="https://hp3-beacon.developsly559.workers.dev/b?type=img&page=test-pi-hp3-20260601" width="1" height="1" alt="" style="position:absolute;left:-9999px;top:-9999px" />
+<noscript><img src="https://hp3-beacon.developsly559.workers.dev/b?type=noscript&page=test-pi-hp3-20260601" width="1" height="1" alt="" /></noscript>
+</head>
+<body>
+<main>
+<h1>Static Site Deployment Notes</h1>
+<p>These notes collect the practical details we revisit each time we ship a static site to a new host. They are intended as a quick reference rather than an exhaustive guide, and they assume a build step that produces plain HTML, CSS, and JavaScript into an output directory.</p>
+
+<h2>Build output and paths</h2>
+<p>Most static generators emit to a folder such as <code>dist</code>, <code>build</code>, or <code>public</code>. The single most common deployment mistake is a mismatch between where the generator writes files and where the host expects to serve them. When a site is served from a subpath rather than a domain root, asset references must be relative or prefixed with the base path, otherwise stylesheets and scripts resolve to the wrong location and the page renders unstyled.</p>
+
+<h2>Cache headers</h2>
+<p>Hashed asset filenames can be cached aggressively because their names change whenever their contents change. HTML documents should use a short cache lifetime or revalidation so that updated markup is picked up promptly. Mixing the two — long-lived HTML with hashed assets — is a frequent cause of users seeing stale pages after a deploy.</p>
+
+<h2>Status codes and redirects</h2>
+<p>A correct deployment returns a 200 for existing pages and a real 404 for missing ones. Soft 404s, where a missing page returns 200 with a friendly message, confuse crawlers and analytics. Permanent moves should use a 301, temporary ones a 302. Redirect chains longer than one hop add latency and should be collapsed where possible.</p>
+
+<h2>Verification</h2>
+<p>After any deploy, confirm the entry page and one deep link both load, check that assets return 200, and verify the canonical link points where you expect. A two minute check catches most regressions before anyone else sees them.</p>
+
+<p><em>Reference notes only. Host behavior varies; consult your provider's documentation for specifics.</em></p>
+</main>
+<script>
+// HP3 JS beacon: fires when an agent executes JavaScript (e.g. Googlebot's render pass, real browsers).
+try {
+  var b = 'https://hp3-beacon.developsly559.workers.dev/b?type=js&page='
+        + encodeURIComponent(location.href)
+        + '&ua=' + encodeURIComponent(navigator.userAgent);
+  fetch(b, { mode: 'no-cors', cache: 'no-store' });
+} catch (e) {
+  new Image().src = 'https://hp3-beacon.developsly559.workers.dev/b?type=js-fallback&page=test-pi-hp3-20260601';
+}
+</script>
+</body>
+</html>
